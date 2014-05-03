@@ -5,10 +5,10 @@ OBJECT_FILES= main.o \
 All:	$(PROGRAM_FILE)
 
 %.o:	%.cpp
-	clang++ -c -pedantic $<
+	clang++ -c -O0 -pedantic $<
 
 $(PROGRAM_FILE):	$(OBJECT_FILES)
-	clang++ -o $(PROGRAM_FILE) $(OBJECT_FILES)
+	clang++ -O0 -o $(PROGRAM_FILE) $(OBJECT_FILES)
 
 test:	$(PROGRAM_FILE)
 	./$(PROGRAM_FILE)
