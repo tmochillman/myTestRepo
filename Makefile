@@ -15,3 +15,6 @@ test:	$(PROGRAM_FILE)
 	
 clean:
 	rm -f $(OBJECT_FILES) $(PROGRAM_FILE) *~
+
+backup:
+	tar -czf "../backup.$(shell basename $(shell pwd))-$(shell date --rfc-3339=seconds).tar.gz" -C ../ "$(shell basename $(shell pwd))"
