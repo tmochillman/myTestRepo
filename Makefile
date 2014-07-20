@@ -1,20 +1,27 @@
-PROGRAM_FILE=hello
+MAIN_PROGRAM=hello
+CC=clang
+LD=clang
+CFLAGS=-O0 -pedantic
+LDFLAGS=-O0 -lstdc++
+
 OBJECT_FILES= main.o \
 	      foo.o
 
-All:	$(PROGRAM_FILE)
+All:	$(MAIN_PROGRAM)
 
 %.o:	%.cpp
-	clang++ -c -O0 -pedantic $<
+	$(CC) -x c++ -c $(CFLAGS) $<
 
-$(PROGRAM_FILE):	$(OBJECT_FILES)
-	clang++ -O0 -o $(PROGRAM_FILE) $(OBJECT_FILES)
+$(MAIN_PROGRAM):	$(OBJECT_FILES)
+	$(LD) $(LDFLAGS) $(OBJECT_FILES) -o $(MAIN_PROGRAM) 
 
-test:	$(PROGRAM_FILE)
-	./$(PROGRAM_FILE)
+test:	$(MAIN_PROGRAM)
+	./$(MAIN_PROGRAM)
 	
 clean:
-	rm -f $(OBJECT_FILES) $(PROGRAM_FILE) *~
+	rm -f $(OBJECT_FILES) $(MAIN_PROGRAM) *~
 
+PROJECT_FOLDER=$(shell basename $(shell pwd))
 backup:
-	tar -czf "../backup.$(shell basename $(shell pwd))-$(shell date --rfc-3339=seconds).tar.gz" -C ../ "$(shell basename $(shell pwd))"
+	tar -czf "../$(PROJECT_FOLDER)--$(shell date +%Y-%m-%d--%T).tar.gz" \
+		-C ../ "$(PROJECT_FOLDER)"
