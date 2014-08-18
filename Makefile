@@ -23,5 +23,6 @@ clean:
 
 PROJECT_FOLDER=$(shell basename $(shell pwd))
 backup:
-	tar -czf "../$(PROJECT_FOLDER)--$(shell date +%Y-%m-%d--%T).tar.gz" \
-		-C ../ "$(PROJECT_FOLDER)"
+	tar -czf \
+	"../$(PROJECT_FOLDER)--$(shell date +%Y-%m-%d--%H-%M-%S).tar.gz" \
+	-C ../ "$(PROJECT_FOLDER)"
