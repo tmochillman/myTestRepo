@@ -1,19 +1,35 @@
 MAIN_PROGRAM=hello
 CC=clang
+#CC=g++
 LD=clang
+#LD=g++
 CFLAGS=-O0 -pedantic
 LDFLAGS=-O0 -lstdc++
 
-OBJECT_FILES= main.o \
-	      foo.o
+OBJECT_FILES= \
+	main.o \
+	audio.o
+EXTERNAL_INCLUDE_PATHS= \
+	external/portaudio/include
+EXTERNAL_LIBS_PATHS= \
+	external/portaudio/lib
+EXTERNAL_LIBS= \
+	portaudio
 
 All:	$(MAIN_PROGRAM)
 
+%.cpp:	%.h
+	touch $@
 %.o:	%.cpp
-	$(CC) -x c++ -c $(CFLAGS) $<
+	$(CC) -x c++ \
+		$(patsubst %, -I%, $(EXTERNAL_INCLUDE_PATHS)) \
+		-c $(CFLAGS) $<
 
 $(MAIN_PROGRAM):	$(OBJECT_FILES)
-	$(LD) $(LDFLAGS) $(OBJECT_FILES) -o $(MAIN_PROGRAM) 
+	$(LD) $(LDFLAGS) \
+	       	$(patsubst %, -L%, $(EXTERNAL_LIBS_PATHS)) \
+		$(patsubst %, -l%, $(EXTERNAL_LIBS)) \
+		$(OBJECT_FILES) -o $(MAIN_PROGRAM) 
 
 test:	$(MAIN_PROGRAM)
 	./$(MAIN_PROGRAM)
