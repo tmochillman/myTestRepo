@@ -38,7 +38,7 @@ test:	$(MAIN_PROGRAM)
 	./$(MAIN_PROGRAM)
 	
 clean:
-	rm -f $(OBJECT_FILES) $(MAIN_PROGRAM) *~
+	rm -f $(OBJECT_FILES) $(MAIN_PROGRAM) *~ .*~
 
 PROJECT_FOLDER=$(shell basename $(shell pwd))
 backup:
