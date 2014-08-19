@@ -28,11 +28,11 @@ All:	$(MAIN_PROGRAM)
 		-c $(CFLAGS) $<
 
 $(MAIN_PROGRAM):	$(OBJECT_FILES)
-	$(LD) $(LDFLAGS) $(EXTERNAL_LIBS_LDFLAGS) \
+	$(LD) $(OBJECT_FILES) \
+		$(LDFLAGS) $(EXTERNAL_LIBS_LDFLAGS) \
 	       	$(patsubst %, -L%, $(EXTERNAL_LIBS_PATHS)) \
 		$(patsubst %, -l%, $(EXTERNAL_LIBS)) \
-		$(EXTERNAL_LIBS_PATHS)/*.o \
-		$(OBJECT_FILES) -o $(MAIN_PROGRAM) 
+		-o $(MAIN_PROGRAM) 
 
 test:	$(MAIN_PROGRAM)
 	./$(MAIN_PROGRAM)
