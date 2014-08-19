@@ -9,12 +9,14 @@ LDFLAGS=-O0 -lstdc++
 OBJECT_FILES= \
 	main.o \
 	audio.o
+	
 EXTERNAL_INCLUDE_PATHS= \
 	external/portaudio/include
 EXTERNAL_LIBS_PATHS= \
 	external/portaudio/lib
 EXTERNAL_LIBS= \
 	portaudio
+EXTERNAL_LIBS_LDFLAGS=-lpthread -lm
 
 All:	$(MAIN_PROGRAM)
 
@@ -26,9 +28,10 @@ All:	$(MAIN_PROGRAM)
 		-c $(CFLAGS) $<
 
 $(MAIN_PROGRAM):	$(OBJECT_FILES)
-	$(LD) $(LDFLAGS) \
+	$(LD) $(LDFLAGS) $(EXTERNAL_LIBS_LDFLAGS) \
 	       	$(patsubst %, -L%, $(EXTERNAL_LIBS_PATHS)) \
 		$(patsubst %, -l%, $(EXTERNAL_LIBS)) \
+		$(EXTERNAL_LIBS_PATHS)/*.o \
 		$(OBJECT_FILES) -o $(MAIN_PROGRAM) 
 
 test:	$(MAIN_PROGRAM)
