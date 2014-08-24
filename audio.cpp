@@ -10,7 +10,3 @@
  * */
 
 #include "audio.h"
-
-int foo() {
-	return Pa_GetVersion();
-}

@@ -8,6 +8,3 @@
  * */
 
 #include "portaudio.h"
-
-// return version of portaudio
-int foo();
