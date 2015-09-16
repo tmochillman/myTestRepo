@@ -1,44 +1,21 @@
 MAIN_PROGRAM=hello
-CC=clang
-#CC=g++
-LD=clang
-#LD=g++
-CFLAGS=-O0 -pedantic
-LDFLAGS=-O0 -lstdc++
-
-OBJECT_FILES= \
-	main.o \
-	audio.o
-	
-EXTERNAL_INCLUDE_PATHS= \
-	external/portaudio/include
-EXTERNAL_LIBS_PATHS= \
-	external/portaudio/lib
-EXTERNAL_LIBS= \
-	portaudio
-EXTERNAL_LIBS_LDFLAGS=-lpthread -lm
+BUILD_DIR=_build
 
 All:	$(MAIN_PROGRAM)
 
-%.cpp:	%.h
-	touch $@
-%.o:	%.cpp
-	$(CC) -x c++ \
-		$(patsubst %, -I%, $(EXTERNAL_INCLUDE_PATHS)) \
-		-c $(CFLAGS) $<
+$(MAIN_PROGRAM):	$(BUILD_DIR)
+	@echo "invoking cmake..."
+	cd $(BUILD_DIR) && cmake -G Ninja ../
 
-$(MAIN_PROGRAM):	$(OBJECT_FILES)
-	$(LD) $(OBJECT_FILES) \
-		$(LDFLAGS) $(EXTERNAL_LIBS_LDFLAGS) \
-	       	$(patsubst %, -L%, $(EXTERNAL_LIBS_PATHS)) \
-		$(patsubst %, -l%, $(EXTERNAL_LIBS)) \
-		-o $(MAIN_PROGRAM) 
+$(BUILD_DIR):
+	mkdir $(BUILD_DIR)
 
 test:	$(MAIN_PROGRAM)
 	./$(MAIN_PROGRAM)
 	
 clean:
-	rm -f $(OBJECT_FILES) $(MAIN_PROGRAM) *~ .*~
+	rm -f $(MAIN_PROGRAM) *~ .*~
+	rm -rf $(BUILD_DIR)
 
 PROJECT_FOLDER=$(shell basename $(shell pwd))
 backup:
